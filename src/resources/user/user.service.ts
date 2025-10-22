@@ -10,7 +10,7 @@ import { instanceToPlain } from 'class-transformer';
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const hashed = await passwordToHash(createUserDto.password);
@@ -24,11 +24,13 @@ export class UserService {
     return instanceToPlain(created);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const users = await this.userRepository.find();
+
+    return instanceToPlain(users);
   }
 
-  async findOneToAuthenticate(username: string) {
+  async findOneRaw(username: string) {
     const user = await this.userRepository.findOne({ where: { username } });
     return user;
   }

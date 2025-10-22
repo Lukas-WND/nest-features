@@ -4,10 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './database/config';
 import { UserModule } from './resources/user/user.module';
 import { AuthModule } from './resources/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(databaseConfig), UserModule, AuthModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(databaseConfig), UserModule, AuthModule],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
